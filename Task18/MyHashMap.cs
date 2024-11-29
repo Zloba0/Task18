@@ -21,6 +21,7 @@ namespace Task18
             if (table[numBucket].Size() == 0)
             {
                 table[numBucket] = new MyLinkedList<Entry<T>>(x);
+                size++;
             }
             else
             {
@@ -42,6 +43,7 @@ namespace Task18
                 if (!flag)
                 {
                     table[numBucket].Add(x);
+                    size++;
                 }
             }
         }
@@ -133,12 +135,7 @@ namespace Task18
         }
         public Entry<T>[] EntrySet()
         {
-            int sum = 0;
-            for (int i = 0; i < table.Length; i++)
-            {
-                sum += table[i].Size();
-            }
-            Entry<T>[] result = new Entry<T>[sum];
+            Entry<T>[] result = new Entry<T>[size];
             int index = 0;
             for (int i = 0; i < table.Length; i++)
             {
@@ -200,12 +197,7 @@ namespace Task18
         }
         public int[] KeySet()
         {
-            int sum = 0;
-            for (int i = 0; i < table.Length; i++)
-            {
-                sum += table[i].Size();
-            }
-            int[] result = new int[sum];
+            int[] result = new int[size];
             int index = 0;
             for (int i = 0; i < table.Length; i++)
             {
@@ -242,11 +234,7 @@ namespace Task18
                 throw new ArgumentException();
             }
             int numBucket = hash % table.Length;
-            if (table[numBucket].Size() == 0)
-            {
-                return;
-            }
-            else
+            if (table[numBucket].Size() != 0)
             {
                 MyLinkedList<Entry<T>>.List<Entry<T>> p = table[numBucket].first;
                 for (int i = 0; i < table[numBucket].Size(); i++)
@@ -254,20 +242,16 @@ namespace Task18
                     if (hash.Equals(p.info.key))
                     {
                         table[numBucket].Remove(p.info);
+                        size--;
+                        break;
                     }
                     p = p.next;
                 }
             }
-            return;
         }
         public int Size()
         {
-            int sum = 0;
-            for (int i = 0; i < table.Length; i++)
-            {
-                sum += table[i].Size();
-            }
-            return sum;
+            return size;
         }
     }
 }
